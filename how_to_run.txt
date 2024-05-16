@@ -1,0 +1,3 @@
+- make rick follow morty by tf fix
+ros2 launch robot_chase start_tf_fixes.launch.xml
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/morty/cmd_vel
