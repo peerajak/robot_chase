@@ -33,7 +33,7 @@ class Coordinates:
         
 class CamBotMove(Node):
     
-    def __init__(self, timer_period=0.05, model_name="rick", init_dest_frame="morty/barista_attach_frame", trans_speed=1.0, rot_speed=0.1):
+    def __init__(self, timer_period=0.05, model_name="rick", init_dest_frame="morty/base_link", trans_speed=1.0, rot_speed=0.1):
         super().__init__('force_move_rick')
         
         self._model_name = model_name
