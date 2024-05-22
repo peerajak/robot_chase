@@ -22,16 +22,16 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-add_executable(robot_chase_node src/robot_chase.cpp)
+add_executable(robot_chase src/robot_chase.cpp)
 ament_target_dependencies(
-    robot_chase_node
+    robot_chase
     geometry_msgs
     rclcpp
     tf2
     tf2_ros
 )
 install(TARGETS
-   robot_chase_node
+   robot_chase
    DESTINATION lib/${PROJECT_NAME}
  )
 

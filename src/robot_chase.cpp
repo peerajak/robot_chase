@@ -56,11 +56,11 @@ private:
 
   rclcpp::TimerBase::SharedPtr timer1_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
-  geometry_msgs::msg::Twist ling;
+
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_{nullptr};
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
-  std::string fromFrameRel = "rick/barista_attach_frame";
-  std::string toFrameRel = "morty/barista_attach_frame";
+  std::string fromFrameRel = "morty/base_link";
+  std::string toFrameRel = "rick/base_link";
 
   void timer1_callback() {
     RCLCPP_DEBUG(this->get_logger(), "Timer 1 Callback Start");
@@ -70,26 +70,29 @@ private:
           rclcpp::Time now = this->get_clock()->now();
           t = tf_buffer_->lookupTransform(
             toFrameRel, fromFrameRel,
-            now);//tf2::TimePointZero
+            tf2::TimePointZero);//
         } catch (const tf2::TransformException & ex) {
           RCLCPP_INFO(
             this->get_logger(), "Could not transform %s to %s: %s",
             toFrameRel.c_str(), fromFrameRel.c_str(), ex.what());
           return;
         }
-
-        static const double scaleRotationRate = 1.0;
+        geometry_msgs::msg::Twist ling;
+        static const double scaleRotationRate = 0.4;
+        ling.angular.x = 0;
+        ling.angular.y = 0;
         ling.angular.z = scaleRotationRate * atan2(
           t.transform.translation.y,
           t.transform.translation.x);
 
-        static const double scaleForwardSpeed = 0.5;
+        static const double scaleForwardSpeed = 0.2;
         ling.linear.x = scaleForwardSpeed * sqrt(
           pow(t.transform.translation.x, 2) +
           pow(t.transform.translation.y, 2));
+        ling.linear.y = 0;
 
          this->move_robot(ling);
-    RCLCPP_DEBUG(this->get_logger(), "Timer 1 Callback End");
+    RCLCPP_INFO(this->get_logger(), "linear x %f, angular z %f",ling.linear.x,ling.angular.z);
   }
 
   void move_robot(geometry_msgs::msg::Twist &msg) { publisher_->publish(msg); }
