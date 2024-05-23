@@ -81,14 +81,18 @@ private:
         static const double scaleRotationRate = 0.6;
         ling.angular.x = 0;
         ling.angular.y = 0;
-        ling.angular.z = scaleRotationRate * atan2(
+        ling.angular.z = sqrt(
+          pow(t.transform.translation.x, 2) +
+          pow(t.transform.translation.y, 2)) > 0.356? scaleRotationRate * atan2(
           t.transform.translation.y,
-          t.transform.translation.x);
+          t.transform.translation.x):0;
 
         static const double scaleForwardSpeed = 0.3;
-        ling.linear.x = scaleForwardSpeed * sqrt(
+        ling.linear.x = sqrt(
           pow(t.transform.translation.x, 2) +
-          pow(t.transform.translation.y, 2));
+          pow(t.transform.translation.y, 2)) > 0.356? scaleForwardSpeed * sqrt(
+          pow(t.transform.translation.x, 2) +
+          pow(t.transform.translation.y, 2)) : 0;
         ling.linear.y = 0;
 
          this->move_robot(ling);
