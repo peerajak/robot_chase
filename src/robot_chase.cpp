@@ -78,14 +78,14 @@ private:
           return;
         }
         geometry_msgs::msg::Twist ling;
-        static const double scaleRotationRate = 0.4;
+        static const double scaleRotationRate = 0.6;
         ling.angular.x = 0;
         ling.angular.y = 0;
         ling.angular.z = scaleRotationRate * atan2(
           t.transform.translation.y,
           t.transform.translation.x);
 
-        static const double scaleForwardSpeed = 0.2;
+        static const double scaleForwardSpeed = 0.3;
         ling.linear.x = scaleForwardSpeed * sqrt(
           pow(t.transform.translation.x, 2) +
           pow(t.transform.translation.y, 2));
